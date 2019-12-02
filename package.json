@@ -7,10 +7,15 @@
     "@types/node": "12.12.14",
     "@types/react": "16.9.13",
     "@types/react-dom": "16.9.4",
+    "hashmap": "^2.4.0",
+    "node-sass": "^4.13.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.2.0",
-    "typescript": "3.7.2"
+    "simple-peer": "^9.6.2",
+    "socket.io-client": "^2.3.0",
+    "typescript": "3.7.2",
+    "webrtc-adapter": "^7.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -32,5 +37,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/hashmap": "^2.3.0",
+    "@types/simple-peer": "^9.6.0",
+    "@types/socket.io-client": "^1.4.32"
   }
 }
