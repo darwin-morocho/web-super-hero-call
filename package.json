@@ -14,7 +14,7 @@
     "react-scripts": "3.2.0",
     "simple-peer": "^9.6.2",
     "socket.io-client": "^2.3.0",
-    "typescript": "3.7.0",
+    "typescript": "3.6.4",
     "webrtc-adapter": "^7.3.0"
   },
   "scripts": {
