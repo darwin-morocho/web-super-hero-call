@@ -29,12 +29,12 @@ class App extends React.Component<
   }
 > {
   requestId: string | null = null;
-  pc?: RTCPeerConnection;
+  pc: RTCPeerConnection | null = null;
   localStream: MediaStream | null = null;
   localVideo: HTMLVideoElement | null = null;
   remoteVideo: HTMLVideoElement | null = null;
   incommingOffer: RTCSessionDescription = null;
-  socket?: SocketIOClient.Socket;
+  socket: SocketIOClient.Socket | null = null;
 
   state = {
     heroes: null,
