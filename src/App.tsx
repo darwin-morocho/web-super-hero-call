@@ -174,7 +174,6 @@ class App extends React.Component<
           status: Status.inCalling
         });
       } else {
-        this.pc!.close();
         this.requestId = null;
         this.setState({
           status: Status.default
@@ -185,14 +184,14 @@ class App extends React.Component<
     this.socket!.on("on-candidate", async (candiate: RTCIceCandidateInit) => {
       console.log("on-candidate", candiate);
 
-      if (this.pc != null) {
+      if (this.pc != null && this.state.him) {
         await this.pc!.addIceCandidate(candiate);
       }
     });
 
     this.socket!.on("on-finish-call", () => {
       this.requestId = null;
-      this.pc!.close();
+
       this.setState({
         him: null,
         status: Status.default
@@ -201,7 +200,7 @@ class App extends React.Component<
 
     this.socket!.on("on-cancel-request", () => {
       this.incommingOffer = null;
-      this.pc!.close();
+
       this.setState({ him: null, status: Status.default });
     });
   }
