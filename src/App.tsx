@@ -132,6 +132,7 @@ class App extends React.Component<
     });
 
     this.socket!.on("on-disconnected", (heroName: string) => {
+      this.pc = null;
       this.setState(prevState => {
         let { heroes } = prevState;
         let hero = heroes![heroName] as ISuperHero;
@@ -175,6 +176,7 @@ class App extends React.Component<
         });
       } else {
         this.requestId = null;
+        this.pc=null;
         this.setState({
           status: Status.default
         });
@@ -191,7 +193,7 @@ class App extends React.Component<
 
     this.socket!.on("on-finish-call", () => {
       this.requestId = null;
-
+      this.pc=null;
       this.setState({
         him: null,
         status: Status.default
@@ -200,7 +202,7 @@ class App extends React.Component<
 
     this.socket!.on("on-cancel-request", () => {
       this.incommingOffer = null;
-
+      this.pc=null;
       this.setState({ him: null, status: Status.default });
     });
   }
@@ -244,7 +246,7 @@ class App extends React.Component<
   finishCall = () => {
     this.socket!.emit("finish-call", null);
     this.setState({ status: Status.default, him: null });
-    this.pc!.close();
+    this.pc = null;
   };
 
   render() {
