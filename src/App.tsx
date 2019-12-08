@@ -269,7 +269,7 @@ class App extends React.Component<
           playsInline
           autoPlay
           muted
-          className={status !== Status.inCalling?'d-block':'d-none'}
+          className={status === Status.inCalling?'d-block':'d-none'}
           style={{ zIndex: 99 }}
         />
 
@@ -280,7 +280,7 @@ class App extends React.Component<
             autoPlay
             muted={false}
             playsInline
-            className={status !== Status.inCalling?'d-block':'d-none'}
+            className={status === Status.inCalling?'d-block':'d-none'}
             style={{ height: "100vh" }}
           />
 
