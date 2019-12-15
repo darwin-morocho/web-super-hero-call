@@ -63,7 +63,7 @@ class App extends React.Component<
       if (him != null) {
         console.log("enviando ice", event.candidate);
         this.socket!.emit("candidate", {
-          to: him.name,
+          him: him.name,
           candidate: event.candidate
         });
       }
