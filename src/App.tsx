@@ -1,7 +1,7 @@
 import React from "react";
 import io from "socket.io-client";
 import "./app.scss";
-import { async } from "q";
+import "./dina.scss";
 
 require("webrtc-adapter"); // suport for diferent browsers
 
@@ -16,7 +16,7 @@ enum Status {
   calling,
   icomming,
   default,
-  inCalling
+  inCalling,
 }
 
 class App extends React.Component<
@@ -40,19 +40,19 @@ class App extends React.Component<
     heroes: null,
     me: null,
     him: null,
-    status: Status.default
+    status: Status.default,
   };
 
   createPeer() {
     this.pc = new RTCPeerConnection({
       iceServers: [
         {
-          urls: ["stun:stun.stunprotocol.org"]
-        }
-      ]
+          urls: ["stun:stun.stunprotocol.org"],
+        },
+      ],
     });
 
-    this.pc!.addEventListener("icecandidate", event => {
+    this.pc!.addEventListener("icecandidate", (event) => {
       if (!event.candidate) {
         console.log("ice is null");
         return;
@@ -64,12 +64,12 @@ class App extends React.Component<
         console.log("enviando ice", event.candidate);
         this.socket!.emit("candidate", {
           him: him.name,
-          candidate: event.candidate
+          candidate: event.candidate,
         });
       }
     });
 
-    this.pc!.addEventListener("track", event => {
+    this.pc!.addEventListener("track", (event) => {
       // we received a media stream from the other person. as we're sure
       // we're sending only video streams, we can safely use the first
       // stream we got. by assigning it to srcObject, it'll be rendered
@@ -121,7 +121,7 @@ class App extends React.Component<
     });
 
     this.socket!.on("on-taken", (heroName: string) => {
-      this.setState(prevState => {
+      this.setState((prevState) => {
         let { heroes } = prevState;
         let hero = heroes![heroName] as ISuperHero;
         hero.isTaken = true;
@@ -133,7 +133,7 @@ class App extends React.Component<
 
     this.socket!.on("on-disconnected", (heroName: string) => {
       this.pc = null;
-      this.setState(prevState => {
+      this.setState((prevState) => {
         let { heroes } = prevState;
         let hero = heroes![heroName] as ISuperHero;
         hero.isTaken = false;
@@ -149,7 +149,7 @@ class App extends React.Component<
       async ({
         superHeroName,
         requestId,
-        offer
+        offer,
       }: {
         superHeroName: string;
         requestId: string;
@@ -160,7 +160,7 @@ class App extends React.Component<
         this.incommingOffer = offer;
         this.setState({
           him: heroes![superHeroName] as ISuperHero,
-          status: Status.icomming
+          status: Status.icomming,
         });
       }
     );
@@ -172,13 +172,13 @@ class App extends React.Component<
         await this.pc!.setRemoteDescription(answer);
         const { heroes } = this.state;
         this.setState({
-          status: Status.inCalling
+          status: Status.inCalling,
         });
       } else {
         this.requestId = null;
-        this.pc=null;
+        this.pc = null;
         this.setState({
-          status: Status.default
+          status: Status.default,
         });
       }
     });
@@ -193,16 +193,16 @@ class App extends React.Component<
 
     this.socket!.on("on-finish-call", () => {
       this.requestId = null;
-      this.pc=null;
+      this.pc = null;
       this.setState({
         him: null,
-        status: Status.default
+        status: Status.default,
       });
     });
 
     this.socket!.on("on-cancel-request", () => {
       this.incommingOffer = null;
-      this.pc=null;
+      this.pc = null;
       this.setState({ him: null, status: Status.default });
     });
   }
@@ -215,11 +215,11 @@ class App extends React.Component<
     console.log("llamando");
     this.socket!.emit("request", {
       superHeroName,
-      offer
+      offer,
     });
     this.setState({
       status: Status.calling,
-      him: heroes![superHeroName] as ISuperHero
+      him: heroes![superHeroName] as ISuperHero,
     });
   };
 
@@ -231,13 +231,13 @@ class App extends React.Component<
       await this.pc!.setLocalDescription(answer);
       this.socket!.emit("response", {
         requestId: this.requestId,
-        answer
+        answer,
       });
       this.setState({ status: Status.inCalling });
     } else {
       this.socket!.emit("response", {
         requestId: this.requestId,
-        answer: null
+        answer: null,
       });
       this.setState({ status: Status.default, him: null });
     }
@@ -254,7 +254,7 @@ class App extends React.Component<
       heroes,
       me,
       him,
-      status
+      status,
     }: {
       heroes: any;
       me: ISuperHero | null;
@@ -265,22 +265,22 @@ class App extends React.Component<
       <div>
         <video
           id="local-video"
-          ref={ref => (this.localVideo = ref)}
+          ref={(ref) => (this.localVideo = ref)}
           playsInline
           autoPlay
           muted
-          className={status === Status.inCalling?'d-block':'d-none'}
+          className={status === Status.inCalling ? "d-block" : "d-none"}
           style={{ zIndex: 99 }}
         />
 
         <div className="d-flex">
           <video
             id="remote-video"
-            ref={ref => (this.remoteVideo = ref)}
+            ref={(ref) => (this.remoteVideo = ref)}
             autoPlay
             muted={false}
             playsInline
-            className={status === Status.inCalling?'d-block':'d-none'}
+            className={status === Status.inCalling ? "d-block" : "d-none"}
             style={{ height: "100vh" }}
           />
 
@@ -288,11 +288,11 @@ class App extends React.Component<
             <div id="connected-heroes" className="pa-right-20">
               <div>
                 {Object.keys(heroes!)
-                  .filter(key => {
+                  .filter((key) => {
                     if (me == null) return true;
                     return me!.name != key;
                   })
-                  .map(key => {
+                  .map((key) => {
                     const hero = (heroes as any)[key];
                     return (
                       <div
@@ -323,7 +323,7 @@ class App extends React.Component<
               <h3 className="c-white f-20 uppercase">Pick your hero</h3>
               <div className="d-flex">
                 {heroes &&
-                  Object.keys(heroes!).map(key => {
+                  Object.keys(heroes!).map((key) => {
                     const hero = (heroes as any)[key];
                     return (
                       <div
