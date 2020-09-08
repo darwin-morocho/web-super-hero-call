@@ -290,7 +290,7 @@ class App extends React.Component<
                 {Object.keys(heroes!)
                   .filter((key) => {
                     if (me == null) return true;
-                    return me!.name != key;
+                    return me!.name !== key;
                   })
                   .map((key) => {
                     const hero = (heroes as any)[key];
@@ -348,7 +348,7 @@ class App extends React.Component<
           </div>
         )}
 
-        {status == Status.icomming && (
+        {status === Status.icomming && (
           <div
             className="fixed left-0 right-0 bottom-0 top-0 bg  d-flex flex-column ai-center jc-center"
             style={{ zIndex: 99 }}
@@ -375,7 +375,7 @@ class App extends React.Component<
           </div>
         )}
 
-        {status == Status.calling && (
+        {status === Status.calling && (
           <div
             className="fixed left-0 right-0 bottom-0 top-0 bg  d-flex flex-column ai-center jc-center"
             style={{ zIndex: 99 }}
@@ -394,7 +394,7 @@ class App extends React.Component<
           </div>
         )}
 
-        {status == Status.inCalling && (
+        {status === Status.inCalling && (
           <div
             className="fixed left-0 right-0 bottom-30  d-flex ai-center jc-center"
             style={{ zIndex: 99 }}
